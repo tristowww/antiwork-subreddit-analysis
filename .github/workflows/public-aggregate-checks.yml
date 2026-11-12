@@ -1,0 +1,17 @@
+name: Public aggregate example
+on: [push, pull_request, workflow_dispatch]
+permissions:
+  contents: read
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7.0.1
+      - uses: actions/setup-python@v7.1.0
+        with:
+          python-version: '3.11'
+      - run: python scripts/validate_public_aggregates.py
+      - run: python -m unittest discover -s tests_public -v
+      - run: python scripts/check_repository_docs.py
+      - run: python -m pip install "matplotlib>=3.8,<4"
+      - run: python scripts/rebuild_aggregate_example.py

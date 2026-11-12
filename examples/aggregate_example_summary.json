@@ -1,0 +1,73 @@
+{
+  "scope": "Rebuilt view of existing aggregate results; no raw text or model execution.",
+  "source": "outputs/v2_clean_min25/analysis/candidate_theme_window_prevalence.csv",
+  "source_sha256": "142fc883d507a26422efb6514a59c3dd9df6cf00ddc50fa8e2fe25a307695a82",
+  "source_hash_normalization": "UTF-8 text with LF newlines",
+  "windows": [
+    "Y1_2021-22",
+    "Y4_2024-25"
+  ],
+  "validated_summaries": {
+    "corpus_posts": 97254,
+    "assigned_posts": 37536,
+    "mapped_posts": 18506,
+    "candidate_themes": 9,
+    "included_clusters": 27,
+    "windows": [
+      "Y1_2021-22",
+      "Y2_2022-23",
+      "Y3_2023-24",
+      "Y4_2024-25"
+    ],
+    "months": 48,
+    "mapped_share_all_posts": 0.19028523248401094,
+    "mapped_share_assigned_posts": 0.49302003410059675
+  },
+  "displayed_values": [
+    {
+      "candidate_theme": "Scheduling hours and time off",
+      "first_share": 0.017116989673221106,
+      "last_share": 0.03202341137123746
+    },
+    {
+      "candidate_theme": "Compensation and pay rights",
+      "first_share": 0.0351534870561607,
+      "last_share": 0.03035117056856187
+    },
+    {
+      "candidate_theme": "Health safety and attendance",
+      "first_share": 0.049724147687084455,
+      "last_share": 0.025
+    },
+    {
+      "candidate_theme": "Career precarity and exit",
+      "first_share": 0.02539255906068751,
+      "last_share": 0.024665551839464884
+    },
+    {
+      "candidate_theme": "Recruitment and labor market",
+      "first_share": 0.019804781440090537,
+      "last_share": 0.023327759197324414
+    },
+    {
+      "candidate_theme": "Workplace authority and interpersonal conflict",
+      "first_share": 0.007356061677747913,
+      "last_share": 0.0205685618729097
+    },
+    {
+      "candidate_theme": "Work arrangements and control",
+      "first_share": 0.01011458480690338,
+      "last_share": 0.01354515050167224
+    },
+    {
+      "candidate_theme": "Service work and tips",
+      "first_share": 0.013226764747489036,
+      "last_share": 0.009280936454849498
+    },
+    {
+      "candidate_theme": "Collective worker power and rights",
+      "first_share": 0.008169472344037346,
+      "last_share": 0.004180602006688963
+    }
+  ]
+}

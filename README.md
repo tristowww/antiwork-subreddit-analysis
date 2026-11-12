@@ -1,65 +1,72 @@
 # Antiwork Topic Modeling
 
-Exploratory longitudinal topic modeling of management-related r/antiwork posts,
-March 2021 through February 2025.
+Exploratory longitudinal analysis of management-related r/antiwork discussion, March 2021 through February 2025.
 
-## What this repository contains
+**Research question:** What themes appear in these discussions, how do their observed shares change over time, and how much of the corpus does the model describe?
 
-- Reproducible Python source for filtering, preprocessing, BERTopic fitting,
-  theme trends, cross-window alignment, and robustness checks.
-- The finalized exploratory theme codebook and collaborator-facing methods,
-  findings, robustness, and writing-handoff documents.
-- A dated revised manuscript draft with the updated Method, Results, Discussion,
-  Table 1, and two analysis figures in `deliverables/`.
-- Selected safe-to-share figures and aggregate CSV outputs.
+The project combines BERTopic, a documented candidate-theme codebook, coverage-aware trends and robustness checks. A separate analysis examines model-estimated whole-post sentiment. Code, aggregate evidence and dated drafts are shared; raw posts remain local.
 
-## Current evidence boundary
+**[Reading guide](docs/READING_GUIDE.md)** · **[Run the aggregate example](docs/REPRODUCING.md)** · [Research handoff](planning/WRITING_HANDOFF.md) · [Robustness checks](planning/ROBUSTNESS.md)
 
-The primary analysis uses a full-corpus BERTopic model over 97,254 filtered
-posts. The documented 27-cluster theme map covers 18,506 posts, or 19.0% of the
-full corpus and 49.3% of non-outlier assignments. Results are descriptive and
-exploratory, not causal or complete-corpus prevalence estimates. A separate,
-context-aware whole-corpus sentiment check is available, with its own
-interpretive boundary.
+## Scope at a glance
 
-## Reproduce locally
+| Measure | Saved result | Interpretation |
+| --- | ---: | --- |
+| Filtered corpus | 97,254 posts across 48 months | Management-related sampling frame, not all workplace discussion |
+| Non-outlier assignments | 37,536 posts, 38.6% of the corpus | Posts assigned to one of 199 BERTopic clusters |
+| Included candidate-theme map | 18,506 posts across 27 clusters and nine themes | 19.0% of the full corpus; 49.3% of non-outlier assignments |
 
-The raw corpus is deliberately excluded from GitHub. With the authorized local
-data present, install dependencies and run the appropriate module:
+The map is exploratory and incomplete. A post outside it is not evidence that a concern is absent. Results are descriptive, not causal, representative workforce estimates or human-validated theme labels.
 
-```powershell
-python -m pip install -e ".[nlp,viz]"
-python -m src.collaborator_analysis --out-dir outputs/v2_clean_min25
-python -m src.theme_trends --out-dir outputs/v2_clean_min25 --codebook planning/CANDIDATE_THEME_CODEBOOK.csv
-python -m src.theme_hierarchy
-python -m src.topic_alignment --out-dir outputs/v2_clean_min25 --top-n 15 --threshold 0.2
-python -m src.sentiment --overwrite
-python -m src.theme_sentiment
+## Selected descriptive findings
+
+These shares use **all filtered posts in the same yearly window** as the denominator. Numerators include only posts assigned to the relevant mapped clusters.
+
+| Candidate theme | Mar 2021–Feb 2022 | Mar 2024–Feb 2025 |
+| --- | ---: | ---: |
+| Health safety and attendance | 4.97% | 2.50% |
+| Scheduling hours and time off | 1.71% | 3.20% |
+| Compensation and pay rights | 3.52% | 3.04% |
+
+These results describe changes within the mapped discussion. They do not estimate the complete prevalence of each concern or explain what caused the changes. The [writing handoff](planning/WRITING_HANDOFF.md) records the fuller results and qualifications.
+
+![First and last yearly-window shares for nine mapped candidate themes, using all filtered posts in each window as denominator](examples/aggregate_theme_comparison.png)
+
+The example is rebuilt from the committed [window-level aggregate CSV](outputs/v2_clean_min25/analysis/candidate_theme_window_prevalence.csv). The original [research figures](outputs/v2_clean_min25/figures/) remain preserved, including the [monthly assignment-coverage figure](outputs/v2_clean_min25/figures/monthly_assignment_coverage.png).
+
+## Try the shared evidence
+
+Python 3.10+; the lightweight checks use its standard library and need no raw data, embeddings, model download or credentials:
+
+```bash
+python scripts/validate_public_aggregates.py
+python -m unittest discover -s tests_public -v
 ```
 
-Read [planning/WRITING_HANDOFF.md](planning/WRITING_HANDOFF.md) for the results
-that can be drafted and [planning/ROBUSTNESS.md](planning/ROBUSTNESS.md) for
-the evidence boundary and sensitivity results. Read
-[planning/SENTIMENT.md](planning/SENTIMENT.md) before reporting sentiment
-outputs; they are model-based whole-post polarity estimates, not human-validated
-or management-targeted sentiment labels.
+To rebuild the example figure and source summary:
 
-To rebuild the collaborator brief from the checked-in figures and aggregate
-outputs, install the optional document dependency and run:
-
-```powershell
-python -m pip install -e ".[docs]"
-python scripts/build_collaborator_brief.py
+```bash
+python -m pip install "matplotlib>=3.8,<4"
+python scripts/rebuild_aggregate_example.py
 ```
 
-The revised manuscript can be rebuilt with the same document dependency:
+Output goes to `examples/output/`. The script checks counts, denominators, shares and coverage before plotting. These are consistency checks on existing evidence, not a rerun or validation of the topic model. See [reproduction details](docs/REPRODUCING.md) for the full research workflow.
 
-```powershell
-python scripts/build_revised_manuscript.py
-```
+## Navigate the research
+
+- [Reading guide](docs/READING_GUIDE.md): evidence, historical planning, separate analyses and local-only dependencies.
+- [Codebook](planning/CANDIDATE_THEME_CODEBOOK.csv): included and excluded clusters with review notes.
+- [Writing handoff](planning/WRITING_HANDOFF.md): results and interpretation boundaries for its documented draft cycle.
+- [Robustness notes](planning/ROBUSTNESS.md): corpus audit, seed stability, text-mode sensitivity and alignment.
+- [Sentiment method](planning/SENTIMENT.md): the separate whole-post polarity check. Outputs are model-based, not human-validated or management-targeted sentiment labels.
+- [Dated deliverables](deliverables/): briefs, manuscript drafts and visual appendices. Presence does not establish publication or final approval.
+
+Historical notes retain the decisions and questions of their original stage. The reading guide distinguishes the original title-only inventory, later title-and-body corpus, topic-study scope and separate sentiment check.
+
+## Contributors and context
+
+The project extends the Mitropoulos and Minton SIOP 2023 study. The current project records Mitropoulos and Ristow as authors in its [package metadata](pyproject.toml) and [project notes](planning/PROJECT.md). Individual task contributions are not inferred from commit counts or rewritten here.
 
 ## Data handling
 
-Raw Reddit data, cached embeddings, sampled post excerpts, virtual
-environments, and non-aggregate outputs remain local and are excluded from this
-repository.
+Raw Reddit text, cached embeddings, sampled post excerpts, virtual environments and non-aggregate outputs remain local and excluded from this repository. Historical notes refer to some local-only inputs; their absence from the public tree is intentional. The aggregate example uses only files already shared here.
