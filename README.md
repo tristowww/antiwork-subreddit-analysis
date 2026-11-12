@@ -1,4 +1,4 @@
-# Antiwork Topic Modeling
+# Antiwork Subreddit Analysis
 
 Exploratory longitudinal analysis of management-related r/antiwork discussion, March 2021 through February 2025.
 
